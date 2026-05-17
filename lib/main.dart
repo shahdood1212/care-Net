@@ -171,14 +171,14 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => const DoctorHomePage(),
+                                  builder: (_) => const DoctorDashboard(),
                                 ),
                               );
                             } else {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => const PatientHomePage(),
+                                  builder: (_) => const PatientDashboard(),
                                 ),
                               );
                             }
