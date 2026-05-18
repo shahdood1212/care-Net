@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'book_appointment_page.dart';
+import 'edit_profile_patient.dart';
 // void main() {
 //   runApp(const MyApp());
 // }
@@ -83,8 +84,26 @@ class _PatientDashboardState extends State<PatientDashboard> {
       SnackBar(content: Text(text), duration: const Duration(seconds: 1)),
     );
   }
-
-  @override
+void onBottomTap(int index) {
+  if (index == 0) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const PatientDashboard()),
+    );
+  } 
+  else if (index == 1) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const BookAppointmentPage()),
+    );
+  } 
+  else if (index == 2) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const EditPatientProfilePage()),
+    );
+  }
+}  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -438,12 +457,13 @@ class _PatientDashboardState extends State<PatientDashboard> {
     bool isSelected = selectedBottom == index;
 
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedBottom = index;
-        });
+     onTap: () {
+  setState(() {
+    selectedBottom = index;
+  });
 
-        showMessage("$title Clicked");
+  onBottomTap(index);
+
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
@@ -462,7 +482,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
             Text(
               title,
               style: TextStyle(
-                color: isSelected ? const Color(0xFF0D5BE1) : Colors.black54,
+                color: isSelected ? const Color.fromARGB(255, 0, 80, 219) : Colors.black54,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -471,4 +491,5 @@ class _PatientDashboardState extends State<PatientDashboard> {
       ),
     );
   }
+  
 }

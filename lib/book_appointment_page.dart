@@ -77,10 +77,15 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                 children: [
                   Row(
                     children: [
-                      const Icon(
-                        Icons.arrow_back,
-                        color: Color(0xff2563EB),
-                        size: 30,
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Color(0xFF0A4EDB),
+                          size: 34,
+                        ),
                       ),
 
                       const SizedBox(width: 18),
@@ -201,82 +206,150 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
 
               const SizedBox(height: 30),
 
-              /// DATE TITLE
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Select Date",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.chevron_left),
-                        onPressed: () => changeMonth(-1),
+              /// DATE TITLE (IMPROVED)
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Colors.grey.shade200),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Select Date",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
                       ),
+                    ),
 
-                      Text(
-                        "${currentDate.month}/${currentDate.year}",
-                        style: const TextStyle(fontSize: 18),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
                       ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xff2563EB).withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () => changeMonth(-1),
+                            child: const Icon(Icons.chevron_left, size: 22),
+                          ),
 
-                      IconButton(
-                        icon: const Icon(Icons.chevron_right),
-                        onPressed: () => changeMonth(1),
+                          const SizedBox(width: 8),
+
+                          Text(
+                            "${currentDate.month}/${currentDate.year}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff2563EB),
+                            ),
+                          ),
+
+                          const SizedBox(width: 8),
+
+                          GestureDetector(
+                            onTap: () => changeMonth(1),
+                            child: const Icon(Icons.chevron_right, size: 22),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
 
-              const SizedBox(height: 18),
+              const SizedBox(height: 14),
 
-              /// CALENDAR
+              /// CALENDAR (Improved UI)
               Container(
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(color: Colors.grey.shade200),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
-                child: Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: getDaysInMonth(currentDate).map((day) {
-                    final isSelected = selectedDay == day.day;
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
 
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedDay = day.day;
-                        });
-                      },
-                      child: Container(
-                        width: 45,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? const Color(0xff2563EB)
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey.shade300),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "${day.day}",
-                            style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.black,
+                    /// Days grid
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 12,
+                      children: getDaysInMonth(currentDate).map((day) {
+                        final isSelected = selectedDay == day.day;
+
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeOut,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedDay = day.day;
+                              });
+                            },
+                            child: Container(
+                              width: 46,
+                              height: 46,
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? const Color(0xff2563EB)
+                                    : Colors.grey.shade50,
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? const Color(0xff2563EB)
+                                      : Colors.grey.shade300,
+                                ),
+                                boxShadow: isSelected
+                                    ? [
+                                        BoxShadow(
+                                          color: const Color(
+                                            0xff2563EB,
+                                          ).withValues(alpha: 0.25),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "${day.day}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black87,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 30),
 
               /// TIME TITLE
               const Text(
@@ -395,46 +468,46 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
 
               const SizedBox(height: 30),
 
-             /// PAYMENT TITLE
-const Text(
-  "Payment Method",
-  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-),
+              /// PAYMENT TITLE
+              const Text(
+                "Payment Method",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
 
-const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-/// CASH + WALLET
-Row(
-  children: [
-    Expanded(
-      child: smallPaymentCard(
-        title: "Cash",
-        icon: Icons.money,
-        selected: selectedPayment == 0,
-        onTap: () {
-          setState(() {
-            selectedPayment = 0;
-          });
-        },
-      ),
-    ),
+              /// CASH + WALLET
+              Row(
+                children: [
+                  Expanded(
+                    child: smallPaymentCard(
+                      title: "Cash",
+                      icon: Icons.money,
+                      selected: selectedPayment == 0,
+                      onTap: () {
+                        setState(() {
+                          selectedPayment = 0;
+                        });
+                      },
+                    ),
+                  ),
 
-    const SizedBox(width: 16),
+                  const SizedBox(width: 16),
 
-    Expanded(
-      child: smallPaymentCard(
-        title: "Wallet",
-        icon: Icons.wallet_outlined,
-        selected: selectedPayment == 1,
-        onTap: () {
-          setState(() {
-            selectedPayment = 1;
-          });
-        },
-      ),
-    ),
-  ],
-),
+                  Expanded(
+                    child: smallPaymentCard(
+                      title: "Wallet",
+                      icon: Icons.wallet_outlined,
+                      selected: selectedPayment == 1,
+                      onTap: () {
+                        setState(() {
+                          selectedPayment = 1;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 30),
             ],
           ),

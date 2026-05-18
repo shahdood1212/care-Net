@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'edit_profile_doctor.dart';
 // void main() {
 //   runApp(const MyApp());
 // }
@@ -62,7 +62,14 @@ class DoctorDashboard extends StatelessWidget {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.settings, size: 30),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EditProfileDoctor(),
+                            ),
+                          );
+                        },
                       ),
                       Positioned(
                         right: 2,
